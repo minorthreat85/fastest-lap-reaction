@@ -7,44 +7,39 @@
 
   <style>
     :root{
-      /* Brand */
-      --bg:#000000;                 /* TRUE BLACK */
-      --text:#ffffff;
-      --muted:rgba(255,255,255,.70);
-      --stroke:rgba(255,255,255,.10);
-      --stroke2:rgba(255,255,255,.06);
+      --bg:#000;
+      --text:#fff;
+      --muted:rgba(255,255,255,.62);
+      --hair:rgba(255,255,255,.08);
+      --hair2:rgba(255,255,255,.06);
 
-      --red:#e10600;                /* Fastest Lap red */
-      --green:#19d319;              /* go */
-      --off:#1f1f1f;                /* lights off */
+      --red:#e10600;
+      --green:#22d14f;
+      --off:#2a2a2a;
 
-      --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      --font: system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      --mono: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
-      /* Responsive sizing */
-      --pad: clamp(12px, 3.2vw, 22px);
-      --gap: clamp(10px, 2.6vw, 16px);
-      --radius: clamp(16px, 3.2vw, 22px);
-      --logoW: clamp(280px, 68vw, 560px);
-      --light: clamp(36px, 8.5vw, 56px);
-      --barPadY: clamp(14px, 3.8vw, 20px);
-      --barPadX: clamp(14px, 3.8vw, 20px);
-      --statVal: clamp(18px, 4.6vw, 24px);
+      --pad: clamp(14px, 3.4vw, 26px);
+      --gap: clamp(10px, 2.6vw, 18px);
+      --radius: clamp(14px, 2.8vw, 18px);
 
-      --shadow: 0 18px 55px rgba(0,0,0,.70);
+      --logoW: clamp(220px, 55vw, 420px);
+      --light: clamp(26px, 6.2vw, 38px);
+      --barH: clamp(70px, 10.5vw, 92px);
+      --statVal: clamp(18px, 4.6vw, 22px);
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family:var(--font);
       background:var(--bg);
       color:var(--text);
-      overflow:hidden; /* no page scroll */
+      font-family:var(--font);
+      overflow:hidden; /* no scrolling */
     }
 
-    /* Uses svh to avoid mobile browser UI causing scroll */
     .wrap{
       height:100svh;
       display:flex;
@@ -53,14 +48,13 @@
       padding:var(--pad);
     }
 
-    .card{
-      width:min(860px, 100%);
+    /* Simple frame, not “cardy” */
+    .frame{
+      width:min(920px,100%);
       height:100%;
-      max-height: calc(100svh - (var(--pad) * 2));
+      max-height:calc(100svh - (var(--pad) * 2));
+      border:1px solid var(--hair2);
       border-radius:var(--radius);
-      border:1px solid var(--stroke2);
-      background:transparent;
-      box-shadow:var(--shadow);
       padding:var(--pad);
       display:flex;
       flex-direction:column;
@@ -69,16 +63,14 @@
       position:relative;
     }
 
-    /* ===== HERO LOGO (focal point) ===== */
+    /* Logo = hero, clean */
     .hero{
-      flex: 0 0 auto;
-      padding: clamp(16px, 4.6vw, 30px) 0 clamp(14px, 3.8vw, 26px);
-      border-bottom: 1px solid var(--stroke2);
+      flex:0 0 auto;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap: 12px;
+      padding: clamp(10px, 3.2vw, 20px) 0 0;
     }
 
     .logo{
@@ -86,160 +78,124 @@
       max-width:100%;
       height:auto;
       display:block;
-      /* presence + separation */
-      filter:
-        drop-shadow(0 20px 44px rgba(0,0,0,.90))
-        drop-shadow(0 0 30px rgba(225,6,0,.38));
-      transform: translateZ(0);
     }
 
-    .logoAccent{
-      width: clamp(140px, 28vw, 260px);
-      height: 3px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, var(--red), transparent);
-      opacity: .92;
+    /* Thin accent line under logo */
+    .accent{
+      width:min(520px, 100%);
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity:.9;
+      margin-top: clamp(10px, 2.8vw, 16px);
     }
 
-    /* ===== CENTER STACK ===== */
+    /* Content area */
     .main{
-      flex: 1 1 auto;
+      flex:1 1 auto;
       min-height:0;
       display:flex;
       flex-direction:column;
-      align-items:center;
       justify-content:center;
+      align-items:center;
       gap:var(--gap);
     }
 
-    /* ===== LIGHTS ===== */
+    /* Lights row: very minimal, no bubbles */
     .lights{
       display:flex;
       gap: clamp(10px, 2.8vw, 16px);
-      padding: clamp(10px, 2.6vw, 12px) clamp(12px, 3.0vw, 14px);
-      border-radius: 999px;
-      border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.02);
-      user-select:none;
+      align-items:center;
+      justify-content:center;
+      padding: 6px 0;
     }
 
     .light{
-      width: var(--light);
-      height: var(--light);
-      border-radius: 999px;
-      background: var(--off);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow:
-        inset 0 0 0 clamp(4px, 1.2vw, 7px) rgba(0,0,0,.55),
-        0 0 0 1px rgba(0,0,0,.35);
-      position:relative;
-    }
-    .light::after{
-      content:"";
-      position:absolute;
-      top: 18%;
-      left: 22%;
-      width: 42%;
-      height: 22%;
-      border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      transform: rotate(-20deg);
-      opacity:.8;
+      width:var(--light);
+      height:var(--light);
+      border-radius:999px;
+      background:var(--off);
+      border:1px solid rgba(255,255,255,.10);
     }
 
-    /* ===== SINGLE ACTION BAR (START + REACT) ===== */
+    /* Single action “bar” that feels like a control panel */
     .bar{
-      width:min(720px, 100%);
-      border-radius: clamp(14px, 3vw, 18px);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.03);
-      padding: var(--barPadY) var(--barPadX);
-      cursor:pointer;
-      user-select:none;
-      position:relative;
-      overflow:hidden;
-      box-shadow: 0 14px 34px rgba(0,0,0,.55);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* subtle red sweep on hover (desktop) */
-    .bar::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: linear-gradient(90deg, transparent, rgba(225,6,0,.26), transparent);
-      transform: translateX(-65%);
-      opacity:0;
-      pointer-events:none;
-    }
-    @media (hover:hover){
-      .bar:hover{ border-color: rgba(255,255,255,.22); }
-      .bar:hover::before{
-        opacity:.9;
-        animation: sweep 1.2s ease-in-out infinite;
-      }
-    }
-    @keyframes sweep{
-      0%{ transform: translateX(-65%); }
-      100%{ transform: translateX(65%); }
-    }
-
-    .barTop{
+      width:min(760px,100%);
+      height:var(--barH);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.02);
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
+      padding: 0 clamp(14px, 3.4vw, 22px);
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color:transparent;
     }
 
-    .barTitle{
-      font-weight:1000;
-      letter-spacing:.12em;
+    .barLeft{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
+    }
+
+    .title{
+      font-weight:900;
+      letter-spacing:.14em;
       text-transform:uppercase;
       font-size: clamp(12px, 3.2vw, 14px);
-    }
-
-    .barHint{
-      font-family:var(--mono);
-      font-size: clamp(10px, 2.8vw, 12px);
-      letter-spacing:.10em;
-      color:var(--muted);
       white-space:nowrap;
-      text-transform:uppercase;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .barMsg{
-      margin-top: 10px;
+    .desc{
+      color:var(--muted);
+      font-weight:650;
       font-size: clamp(12px, 3.4vw, 14px);
-      color: var(--muted);
-      line-height: 1.25;
-      font-weight: 700;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 56ch;
     }
 
-    .green{ color: var(--green); font-weight:1000; }
-    .red{ color: var(--red); font-weight:1000; }
+    .barRight{
+      font-family:var(--mono);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size: clamp(10px, 2.6vw, 12px);
+      color:rgba(255,255,255,.78);
+      white-space:nowrap;
+      margin-left:12px;
+    }
 
-    /* ===== STATS ===== */
+    .green{color:var(--green); font-weight:900}
+    .red{color:var(--red); font-weight:900}
+
+    /* Stats: clean grid */
     .stats{
-      width:min(720px, 100%);
+      width:min(760px,100%);
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(8px, 2.4vw, 12px);
+      grid-template-columns:repeat(3,1fr);
+      gap: clamp(10px, 2.6vw, 14px);
+      margin-top: 2px;
     }
 
     .stat{
-      border-radius: clamp(12px, 2.6vw, 16px);
-      border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.02);
-      padding: clamp(10px, 2.6vw, 14px);
+      border:1px solid var(--hair2);
+      border-radius:14px;
+      padding: clamp(12px, 3.0vw, 14px);
+      background:rgba(255,255,255,.01);
       min-width:0;
     }
 
     .k{
-      color: var(--muted);
-      font-size: clamp(10px, 2.7vw, 12px);
-      letter-spacing:.14em;
+      color:rgba(255,255,255,.58);
+      font-size: clamp(10px, 2.6vw, 12px);
+      letter-spacing:.16em;
       text-transform:uppercase;
-      margin-bottom: 10px;
+      margin-bottom:10px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -247,59 +203,47 @@
 
     .v{
       font-family:var(--mono);
-      font-size: var(--statVal);
-      font-weight:1000;
+      font-size:var(--statVal);
+      font-weight:900;
       white-space:nowrap;
     }
 
-    .footer{
-      flex: 0 0 auto;
+    .foot{
+      flex:0 0 auto;
       text-align:center;
-      color: rgba(255,255,255,.55);
-      font-size: clamp(10px, 2.7vw, 12px);
+      color:rgba(255,255,255,.45);
+      font-size: clamp(10px, 2.6vw, 12px);
       letter-spacing:.04em;
       padding-top: 2px;
     }
 
-    /* ===== NO-SCROLL GUARANTEES ===== */
+    /* Phone: stack stats to avoid tiny text */
     @media (max-width: 520px){
-      /* keep stats readable without scrolling */
-      .stats{ grid-template-columns: 1fr; }
-      .k{ margin-bottom: 8px; }
+      .stats{ grid-template-columns:1fr; }
+      .desc{ max-width: 40ch; }
     }
 
+    /* Short screens: remove footer + truncate description */
     @media (max-height: 640px){
-      /* tighten vertical space on short screens */
+      .foot{ display:none; }
+      .desc{ display:none; }
       :root{
-        --logoW: clamp(240px, 60vw, 430px);
+        --logoW: clamp(200px, 52vw, 360px);
+        --barH: clamp(64px, 10vw, 82px);
       }
-      .hero{
-        padding: 12px 0 14px;
-        gap: 10px;
-      }
-      .barMsg{ display:none; }  /* remove extra line */
-      .footer{ display:none; }  /* optional */
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .bar::before{ animation:none !important; }
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="card">
-
-      <!-- HERO LOGO -->
+    <div class="frame">
       <div class="hero">
         <img class="logo" src="icon-512.png" alt="Fastest Lap" />
-        <div class="logoAccent" aria-hidden="true"></div>
+        <div class="accent" aria-hidden="true"></div>
       </div>
 
-      <!-- MAIN UI -->
       <div class="main">
-        <!-- Lights ABOVE action bar -->
         <div class="lights" aria-label="Start lights">
           <div class="light" id="light1"></div>
           <div class="light" id="light2"></div>
@@ -307,18 +251,14 @@
           <div class="light" id="light4"></div>
         </div>
 
-        <!-- Single action bar: Start + React -->
         <div class="bar" id="actionBar" role="button" aria-label="Start or react">
-          <div class="barTop">
-            <div class="barTitle" id="barTitle">Tap to start</div>
-            <div class="barHint" id="barHint">Ready</div>
+          <div class="barLeft">
+            <div class="title" id="barTitle">Tap to start</div>
+            <div class="desc" id="barMsg">Start the round, then tap again when lights turn <span class="green">GREEN</span>.</div>
           </div>
-          <div class="barMsg" id="barMsg">
-            Start the round. Then tap again when lights turn <span class="green">GREEN</span>.
-          </div>
+          <div class="barRight" id="barHint">Ready</div>
         </div>
 
-        <!-- Stats -->
         <div class="stats" aria-label="Stats">
           <div class="stat">
             <div class="k">Last run</div>
@@ -335,24 +275,21 @@
         </div>
       </div>
 
-      <div class="footer">False start if you tap before green.</div>
+      <div class="foot">False start if you tap before green.</div>
     </div>
   </div>
 
   <script>
-    // ===== Settings =====
     const MIN_DELAY_MS = 2000;
     const MAX_DELAY_MS = 5000;
     const RUNS_FOR_AVG = 10;
 
-    // ===== State =====
     let state = "idle"; // idle | armed | go | done
     let goTime = 0;
     let timeoutId = null;
     let bestMs = null;
     let lastRuns = [];
 
-    // ===== Elements =====
     const actionBar  = document.getElementById("actionBar");
     const barTitle   = document.getElementById("barTitle");
     const barHint    = document.getElementById("barHint");
@@ -369,7 +306,6 @@
       document.getElementById("light4"),
     ];
 
-    // ===== Helpers =====
     function clearTimers(){
       if (timeoutId){
         clearTimeout(timeoutId);
@@ -411,8 +347,8 @@
     function setUIReady(){
       barTitle.textContent = "Tap to start";
       barHint.textContent  = "Ready";
-      barMsg.innerHTML     = 'Start the round. Then tap again when lights turn <span class="green">GREEN</span>.';
-      setLights(getComputedStyle(document.documentElement).getPropertyValue("--off").trim() || "#1f1f1f");
+      barMsg.innerHTML     = 'Start the round, then tap again when lights turn <span class="green">GREEN</span>.';
+      setLights("#2a2a2a");
       state = "idle";
       clearTimers();
     }
@@ -420,9 +356,7 @@
     function armGame(){
       clearTimers();
       state = "armed";
-
-      const red = getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600";
-      setLights(red);
+      setLights("#e10600");
 
       barTitle.textContent = "Wait…";
       barHint.textContent  = "Armed";
@@ -431,13 +365,12 @@
       const delay = MIN_DELAY_MS + Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS + 1));
       timeoutId = setTimeout(() => {
         state = "go";
-        const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim() || "#19d319";
-        setLights(green);
+        setLights("#22d14f");
         goTime = Date.now();
 
         barTitle.textContent = "Tap!";
         barHint.textContent  = "Go";
-        barMsg.textContent   = "Tap now!";
+        barMsg.textContent   = "Tap now.";
       }, delay);
     }
 
@@ -448,12 +381,9 @@
       }
 
       if (state === "armed"){
-        // False start
         clearTimers();
         state = "done";
-
-        const red = getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600";
-        setLights(red);
+        setLights("#e10600");
 
         barTitle.textContent = "False start";
         barHint.textContent  = "Too soon";
@@ -466,8 +396,7 @@
       if (state === "go"){
         const rt = Date.now() - goTime;
         state = "done";
-
-        setLights(getComputedStyle(document.documentElement).getPropertyValue("--off").trim() || "#1f1f1f");
+        setLights("#2a2a2a");
 
         barTitle.textContent = formatMs(rt);
         barHint.textContent  = "Result";
@@ -482,14 +411,12 @@
       }
     }
 
-    // ===== Events =====
     actionBar.addEventListener("click", react);
     actionBar.addEventListener("touchstart", (e) => {
       e.preventDefault();
       react();
     }, { passive:false });
 
-    // Init
     updateStats(null);
     setUIReady();
   </script>
