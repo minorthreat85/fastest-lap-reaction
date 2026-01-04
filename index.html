@@ -4,30 +4,38 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fastest Lap Reaction</title>
+
   <style>
     :root{
-      --bg:#0b0b0b;
-      --card:#101010;
-      --panel:#161616;
-      --border:#2a2a2a;
-      --text:#eaeaea;
-      --muted:#a8a8a8;
+      /* ===== Fastest Lap Brand Colors (Black / Red / White) ===== */
+      --fl-black:#000000;
+      --fl-black-2:#0b0b0b;
+      --fl-panel:#121212;
+      --fl-panel-2:#1a1a1a;
+      --fl-border:#2a2a2a;
+      --fl-white:#ffffff;
+      --fl-text:#f2f2f2;
+      --fl-muted:#b5b5b5;
+
+      /* Primary accent (Fastest Lap Red) */
+      --fl-red:#e10600;
+
+      /* Game colors */
       --green:#19d319;
-      --red:#b00000;
-      --yellow:#facc15;
-      --purple:#a855f7;
-      --danger:#ef4444;
+      --red:#e10600;
+
       --radius:18px;
-      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --shadow:0 10px 30px rgba(0,0,0,.45);
       --font:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       font-family:var(--font);
-      background:linear-gradient(180deg,#101010 0%, #0a0a0a 100%);
-      color:var(--text);
+      background:linear-gradient(180deg,var(--fl-black-2) 0%, var(--fl-black) 100%);
+      color:var(--fl-text);
     }
     .wrap{
       min-height:100%;
@@ -38,46 +46,58 @@
     }
     .card{
       width:min(920px,100%);
-      background:rgba(10,10,10,.25);
-      border:1px solid rgba(255,255,255,.06);
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.08);
       border-radius:var(--radius);
       padding:26px;
       box-shadow:var(--shadow);
     }
+
+    /* ===== Header / Logo ===== */
     .brand{
-      text-align:center;
-      font-weight:900;
-      letter-spacing:.12em;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      gap:10px;
       user-select:none;
+      margin-bottom:10px;
+    }
+    .brand img{
+      max-width:280px;   /* adjust to taste */
+      width:70%;
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 6px 18px rgba(0,0,0,.55));
     }
     .accent{
       display:block;
-      margin:10px auto 0;
       height:4px;
-      width:260px;
+      width:300px;
+      max-width:80%;
       border-radius:999px;
-      background:linear-gradient(90deg,var(--purple),var(--green),var(--purple));
-      opacity:.9;
+      background:linear-gradient(90deg, transparent, var(--fl-red), transparent);
+      opacity:.95;
     }
 
     .nameRow{
       display:flex;
       gap:10px;
       justify-content:center;
-      margin:16px 0 18px;
+      margin:18px 0 18px;
     }
     input{
       width:min(520px,100%);
       padding:14px 14px;
       border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(25,25,25,.85);
-      color:var(--text);
+      border:1px solid var(--fl-border);
+      background:rgba(18,18,18,.92);
+      color:var(--fl-white);
       font-size:16px;
       outline:none;
       text-align:center;
     }
-    input::placeholder{color:#777}
+    input::placeholder{color:#7a7a7a}
 
     .stats{
       display:grid;
@@ -88,20 +108,24 @@
     @media (max-width:760px){
       .stats{grid-template-columns:repeat(2,1fr);}
     }
+
     .stat{
-      background:rgba(22,22,22,.9);
-      border:1px solid rgba(255,255,255,.06);
+      background:rgba(18,18,18,.92);
+      border:1px solid rgba(255,255,255,.08);
       border-radius:14px;
       padding:14px 14px 12px;
       position:relative;
       overflow:hidden;
       min-height:78px;
     }
-    .bar{position:absolute;left:0;right:0;top:0;height:4px;opacity:.95}
-    .bar.last{background:var(--green)}
-    .bar.avg{background:var(--yellow)}
-    .bar.best{background:var(--purple)}
-    .bar.pro{background:var(--danger)}
+
+    /* Top bars now match Fastest Lap theme */
+    .bar{
+      position:absolute;left:0;right:0;top:0;height:4px;opacity:.98;
+      background:var(--fl-red);
+    }
+    .bar.alt{background:rgba(255,255,255,.35)} /* subtle white variant */
+
     .value{
       font-weight:900;
       font-size:20px;
@@ -110,15 +134,15 @@
     }
     .label{
       font-size:12px;
-      color:var(--muted);
+      color:var(--fl-muted);
       letter-spacing:.12em;
       text-transform:uppercase;
     }
 
-    .lightsWrap{display:flex;justify-content:center;margin:10px 0 18px;}
+    .lightsWrap{display:flex;justify-content:center;margin:12px 0 18px;}
     .lightsPanel{
-      background:rgba(22,22,22,.9);
-      border:1px solid rgba(255,255,255,.06);
+      background:rgba(18,18,18,.92);
+      border:1px solid rgba(255,255,255,.08);
       border-radius:16px;
       padding:16px 22px;
       display:flex;
@@ -129,25 +153,26 @@
     .light{
       width:42px;height:42px;border-radius:999px;
       background:#2a2a2a;
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:inset 0 0 0 3px rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:inset 0 0 0 3px rgba(0,0,0,.45);
     }
 
     .hint{display:flex;justify-content:center;margin:0 0 14px;}
     .hintBox{
       width:min(620px,100%);
-      background:rgba(245,245,245,.95);
-      color:#111;
+      background:rgba(18,18,18,.92);
+      color:var(--fl-white);
       border-radius:14px;
       padding:18px 16px;
       text-align:center;
       font-weight:900;
       letter-spacing:.02em;
-      border:1px solid rgba(0,0,0,.08);
+      border:1px solid rgba(255,255,255,.08);
       user-select:none;
     }
     .hintBox .green{color:var(--green)}
-    .hintBox .red{color:var(--red)}
+    .hintBox .red{color:var(--fl-red)}
+    .hintBox .accentRed{color:var(--fl-red)}
 
     .actions{
       display:flex;
@@ -160,20 +185,27 @@
       width:min(360px,100%);
       padding:14px 16px;
       border-radius:12px;
-      border:none;
+      border:1px solid rgba(255,255,255,.10);
       cursor:pointer;
       font-weight:1000;
       letter-spacing:.08em;
       text-transform:uppercase;
     }
-    .btnStart{background:var(--green);color:#082108;}
-    .btnReset{background:#2a2a2a;color:#eaeaea;border:1px solid rgba(255,255,255,.08);}
+    .btnStart{
+      background:var(--fl-red);
+      color:var(--fl-white);
+      border-color:rgba(255,255,255,.12);
+    }
+    .btnReset{
+      background:rgba(255,255,255,.06);
+      color:var(--fl-text);
+    }
     .btn:active{transform:translateY(1px)}
 
     .sub{
       margin-top:14px;
       text-align:center;
-      color:#bdbdbd;
+      color:var(--fl-muted);
       font-size:13px;
       user-select:none;
       line-height:1.35;
@@ -182,8 +214,8 @@
       display:inline-block;
       padding:2px 8px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
       margin:0 4px;
     }
   </style>
@@ -193,8 +225,10 @@
   <div class="wrap">
     <div class="card" role="application" aria-label="Fastest Lap Reaction Timer">
 
+      <!--  HEADER (replaces fastestlap.com text) -->
       <div class="brand">
-        FASTESTLAP.COM
+        <!-- Put your  file in the repo root as .png -->
+       <img src="icon-512.png" alt="Fastest Lap Logo" />
         <span class="accent"></span>
       </div>
 
@@ -204,22 +238,22 @@
 
       <div class="stats">
         <div class="stat">
-          <div class="bar last"></div>
+          <div class="bar"></div>
           <div class="value" id="lastRunTxt">0.000s</div>
           <div class="label">Last run</div>
         </div>
         <div class="stat">
-          <div class="bar avg"></div>
+          <div class="bar alt"></div>
           <div class="value" id="avgRunTxt">0.000s</div>
           <div class="label">Avg 10 runs</div>
         </div>
         <div class="stat">
-          <div class="bar best"></div>
+          <div class="bar"></div>
           <div class="value" id="bestRunTxt">0.000s</div>
           <div class="label">Fastest run</div>
         </div>
         <div class="stat">
-          <div class="bar pro"></div>
+          <div class="bar alt"></div>
           <div class="value" id="proRunTxt">0.250s</div>
           <div class="label">Pro time</div>
         </div>
@@ -246,8 +280,7 @@
       </div>
 
       <div class="sub">
-        Tip: On tablets, tap the <span class="pill">lights</span> panel to react.
-        Early tap = <span class="pill">too soon</span>.
+        Tip: Tap the <span class="pill">lights</span> panel to react. Early tap = <span class="pill">too soon</span>.
       </div>
 
     </div>
@@ -255,17 +288,17 @@
 
   <script>
     // ===== Settings =====
-    const PRO_MS = 250;                // Pro time target
-    const MIN_DELAY_MS = 2000;         // Random wait min
-    const MAX_DELAY_MS = 5000;         // Random wait max
-    const RUNS_FOR_AVG = 10;           // Avg window
+    const PRO_MS = 250;
+    const MIN_DELAY_MS = 2000;
+    const MAX_DELAY_MS = 5000;
+    const RUNS_FOR_AVG = 10;
 
     // ===== State =====
     let state = "idle"; // idle | armed | go | done
     let goTime = 0;
     let timeoutId = null;
     let bestMs = null;
-    let lastRuns = []; // newest first
+    let lastRuns = [];
 
     // ===== Elements =====
     const nameInput  = document.getElementById("nameInput");
@@ -286,31 +319,25 @@
       document.getElementById("light4"),
     ];
 
-    // ===== Helpers =====
     function clearTimers(){
       if (timeoutId){
         clearTimeout(timeoutId);
         timeoutId = null;
       }
     }
-
     function setLights(color){
       lights.forEach(l => l.style.background = color);
     }
-
     function formatMs(ms){
       return (ms / 1000).toFixed(3) + "s";
     }
-
     function avgOf(arr){
       if (!arr.length) return 0;
       return arr.reduce((a,b)=>a+b,0) / arr.length;
     }
-
     function setStatus(html){
       statusTxt.innerHTML = html;
     }
-
     function updateStats(lastMs){
       proRunTxt.textContent = formatMs(PRO_MS);
 
@@ -330,7 +357,6 @@
       lastRuns = lastRuns.slice(0, RUNS_FOR_AVG);
       avgRunTxt.textContent = formatMs(avgOf(lastRuns));
     }
-
     function resetStats(){
       bestMs = null;
       lastRuns = [];
@@ -341,11 +367,10 @@
       clearTimers();
     }
 
-    // ===== Game Flow =====
     function armGame(){
       clearTimers();
       state = "armed";
-      setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#b00000");
+      setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600");
       setStatus('Get ready… wait for <span class="green">GREEN</span>!');
 
       const delay = MIN_DELAY_MS + Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS + 1));
@@ -363,7 +388,7 @@
       if (state === "armed"){
         clearTimers();
         state = "done";
-        setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#b00000");
+        setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600");
         setStatus('❌ <span class="red">Too soon!</span> Press <span class="pill">START</span> to try again.');
         return;
       }
@@ -375,24 +400,21 @@
 
         const name = (nameInput.value || "").trim();
         const badge = rt <= PRO_MS ? ' ✅ Beat the <span class="pill">PRO TIME</span>!' : "";
-        setStatus(`Reaction: <span class="pill">${formatMs(rt)}</span>${name ? ` — ${name}` : ""}${badge}<br/>Press <span class="pill">START</span> to run again.`);
+        setStatus(`Reaction: <span class="pill">${formatMs(rt)}</span>${name ? ` — <span class="accentRed">${name}</span>` : ""}${badge}<br/>Press <span class="pill">START</span> to run again.`);
 
         updateStats(rt);
       }
     }
 
-    // ===== Events =====
     startBtn.addEventListener("click", () => armGame());
     resetBtn.addEventListener("click", () => resetStats());
     clickZone.addEventListener("click", () => registerReaction());
 
-    // Mobile: treat touch as click, but keep it simple
     clickZone.addEventListener("touchstart", (e) => {
       e.preventDefault();
       registerReaction();
     }, { passive:false });
 
-    // Optional: spacebar to react (nice for desktop)
     window.addEventListener("keydown", (e) => {
       if (e.code === "Space"){
         e.preventDefault();
@@ -401,7 +423,6 @@
       }
     });
 
-    // Init
     resetStats();
   </script>
 </body>
