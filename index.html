@@ -7,19 +7,18 @@
 
   <style>
     :root{
-      /* Minimal Fastest Lap */
-      --bg:#000000;            /* TRUE BLACK */
-      --panel:#0b0b0b;
+      --bg:#000000;                 /* TRUE BLACK */
       --stroke:rgba(255,255,255,.10);
       --stroke2:rgba(255,255,255,.06);
       --text:#ffffff;
       --muted:rgba(255,255,255,.70);
-      --red:#e10600;           /* Fastest Lap red */
-      --green:#19d319;
-      --off:#222222;
 
-      --radius:16px;
-      --shadow:0 14px 40px rgba(0,0,0,.60);
+      --red:#e10600;                /* Fastest Lap red */
+      --green:#19d319;              /* go */
+      --off:#222222;                /* lights off */
+
+      --radius:18px;
+      --shadow:0 16px 50px rgba(0,0,0,.65);
       --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
       --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     }
@@ -38,146 +37,45 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:24px;
+      padding:22px;
     }
 
     .card{
-      width:min(820px,100%);
-      background:transparent;
-      border:1px solid var(--stroke2);
+      width:min(780px,100%);
       border-radius:var(--radius);
-      padding:22px;
+      border:1px solid var(--stroke2);
+      background:transparent;
       box-shadow:var(--shadow);
+      padding:22px 18px 18px;
     }
 
-    /* Header */
-    .header{
+    /* ===== Logo focal point ===== */
+    .logoWrap{
       display:flex;
+      justify-content:center;
       align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:4px 2px 16px;
+      padding:6px 0 16px;
       border-bottom:1px solid var(--stroke2);
       margin-bottom:18px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .brand img{
-      width:38px;height:38px;
-      border-radius:10px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--stroke2);
-      padding:6px;
-    }
-    .title{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-    }
-    .title .name{
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      font-size:13px;
-    }
-    .title .sub{
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:.06em;
-      margin-top:6px;
+    .logo{
+      width:min(360px, 88%);
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,.75));
     }
 
-    .proRow{
+    /* ===== Lights ===== */
+    .lightsWrap{
       display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:flex-end;
-      flex-wrap:wrap;
+      justify-content:center;
+      margin:10px 0 14px;
     }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:.06em;
-      user-select:none;
-    }
-    .pill b{color:#fff; letter-spacing:.08em}
-    .proInput{
-      width:110px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      font-size:12px;
-      font-family:var(--mono);
-      outline:none;
-    }
-    .proInput::-webkit-outer-spin-button,
-    .proInput::-webkit-inner-spin-button{ -webkit-appearance: none; margin:0; }
-
-    /* Main */
-    .stack{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      align-items:center;
-    }
-
-    .nameInput{
-      width:min(520px,100%);
-      padding:14px 14px;
-      border-radius:12px;
-      border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.03);
-      color:#fff;
-      font-size:16px;
-      text-align:center;
-      outline:none;
-    }
-    .nameInput::placeholder{color:rgba(255,255,255,.35)}
-
-    /* Status */
-    .status{
-      width:min(620px,100%);
-      padding:14px 14px;
-      border-radius:12px;
-      border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.03);
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      align-items:center;
-    }
-    .status .msg{
-      font-weight:900;
-      letter-spacing:.03em;
-    }
-    .status .rt{
-      font-family:var(--mono);
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.08em;
-      white-space:nowrap;
-    }
-    .green{color:var(--green)}
-    .red{color:var(--red)}
-
-    /* Lights */
     .lights{
       display:flex;
       gap:14px;
-      padding:8px 10px;
-      border-radius:14px;
+      padding:10px 12px;
+      border-radius:999px;
       border:1px solid var(--stroke2);
       background:rgba(255,255,255,.02);
       user-select:none;
@@ -186,90 +84,109 @@
       width:44px;height:44px;border-radius:999px;
       background:var(--off);
       border:1px solid rgba(255,255,255,.10);
-      box-shadow: inset 0 0 0 5px rgba(0,0,0,.45);
+      box-shadow: inset 0 0 0 5px rgba(0,0,0,.50);
     }
 
-    /* Stats */
+    /* ===== Start/Reaction Bar (single control) ===== */
+    .barWrap{
+      display:flex;
+      justify-content:center;
+      margin:0 0 14px;
+    }
+    .bar{
+      width:min(680px,100%);
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.03);
+      padding:16px 16px;
+      cursor:pointer;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,.45);
+    }
+    .bar:hover{
+      border-color:rgba(255,255,255,.22);
+    }
+    .bar::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, transparent, rgba(225,6,0,.22), transparent);
+      transform:translateX(-65%);
+      opacity:.0;
+    }
+    .bar:hover::before{
+      opacity:.9;
+      animation:sweep 1.2s ease-in-out infinite;
+    }
+    @keyframes sweep{
+      0%{transform:translateX(-65%)}
+      100%{transform:translateX(65%)}
+    }
+
+    .barTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .barTitle{
+      font-weight:1000;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+    .barHint{
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.08em;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .barMsg{
+      margin-top:8px;
+      color:var(--muted);
+      line-height:1.25;
+      font-weight:700;
+    }
+    .green{color:var(--green); font-weight:1000;}
+    .red{color:var(--red); font-weight:1000;}
+
+    /* ===== Minimal stats ===== */
     .stats{
-      width:min(620px,100%);
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:10px;
+      margin-top:4px;
     }
-    @media (max-width:700px){ .stats{grid-template-columns:1fr} }
-
+    @media (max-width:740px){
+      .stats{grid-template-columns:1fr}
+    }
     .stat{
-      padding:12px;
-      border-radius:12px;
+      border-radius:14px;
       border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.03);
+      background:rgba(255,255,255,.02);
+      padding:12px;
     }
-    .stat .k{
+    .k{
       color:var(--muted);
       font-size:12px;
       letter-spacing:.12em;
       text-transform:uppercase;
       margin-bottom:10px;
     }
-    .stat .v{
+    .v{
       font-family:var(--mono);
       font-size:22px;
-      font-weight:900;
-      letter-spacing:.02em;
-    }
-    .stat .bar{
-      height:2px;
-      margin-top:10px;
-      background:var(--red);
-      opacity:.85;
-      border-radius:999px;
-    }
-
-    /* Buttons */
-    .buttons{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-top:2px;
-    }
-    button{
-      border:none;
-      border-radius:12px;
-      padding:14px 16px;
       font-weight:1000;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      cursor:pointer;
     }
-    .start{
-      background:var(--red);
-      color:#fff;
-      min-width:min(360px,100%);
-    }
-    .reset{
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      border:1px solid var(--stroke2);
-      min-width:180px;
-    }
-    button:active{transform:translateY(1px)}
 
-    .note{
-      margin-top:6px;
+    .footer{
+      margin-top:12px;
+      text-align:center;
       color:rgba(255,255,255,.55);
       font-size:12px;
       letter-spacing:.04em;
-      text-align:center;
-      line-height:1.35;
-    }
-    .kbd{
-      font-family:var(--mono);
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.04);
-      margin:0 4px;
     }
   </style>
 </head>
@@ -278,70 +195,55 @@
   <div class="wrap">
     <div class="card">
 
-      <div class="header">
-        <div class="brand">
-          <img src="icon-512.png" alt="Fastest Lap" />
-          <div class="title">
-            <div class="name">Fastest Lap</div>
-            <div class="sub">Reaction Challenge</div>
-          </div>
-        </div>
-
-        <div class="proRow">
-          <div class="pill">PRO <b id="proLabel">0.250s</b></div>
-          <input class="proInput" id="proInput" type="number" min="50" max="2000" step="10" value="250" aria-label="Pro time in milliseconds" />
-        </div>
+      <!-- Logo focal point -->
+      <div class="logoWrap">
+        <img class="logo" src="icon-512.png" alt="Fastest Lap" />
       </div>
 
-      <div class="stack">
-        <input class="nameInput" id="nameInput" type="text" placeholder="Enter name (optional)" maxlength="24" />
-
-        <div class="status" id="clickZone" title="Tap here when green">
-          <div class="msg" id="statusMsg">Press <span class="red">START</span> to begin.</div>
-          <div class="rt" id="statusRt">Tap zone or <span class="kbd">Space</span></div>
-        </div>
-
+      <!-- Lights above bar -->
+      <div class="lightsWrap">
         <div class="lights" aria-label="Start lights">
           <div class="light" id="light1"></div>
           <div class="light" id="light2"></div>
           <div class="light" id="light3"></div>
           <div class="light" id="light4"></div>
         </div>
+      </div>
 
-        <div class="stats">
-          <div class="stat">
-            <div class="k">Last run</div>
-            <div class="v" id="lastRunTxt">0.000s</div>
-            <div class="bar"></div>
+      <!-- Single Start/Reaction bar -->
+      <div class="barWrap">
+        <div class="bar" id="actionBar" role="button" aria-label="Start or React">
+          <div class="barTop">
+            <div class="barTitle" id="barTitle">Tap to start</div>
+            <div class="barHint" id="barHint">READY</div>
           </div>
-          <div class="stat">
-            <div class="k">Avg 10 runs</div>
-            <div class="v" id="avgRunTxt">0.000s</div>
-            <div class="bar"></div>
-          </div>
-          <div class="stat">
-            <div class="k">Fastest run</div>
-            <div class="v" id="bestRunTxt">0.000s</div>
-            <div class="bar"></div>
-          </div>
-        </div>
-
-        <div class="buttons">
-          <button class="start" id="startBtn" type="button">START</button>
-          <button class="reset" id="resetBtn" type="button">RESET</button>
-        </div>
-
-        <div class="note">
-          Tap the status bar to react, or press <span class="kbd">Space</span>.
-          False start if you tap before green.
+          <div class="barMsg" id="barMsg">Start the round. Then tap again when lights turn <span class="green">GREEN</span>.</div>
         </div>
       </div>
+
+      <!-- Minimal stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Last run</div>
+          <div class="v" id="lastRunTxt">0.000s</div>
+        </div>
+        <div class="stat">
+          <div class="k">Avg 10 runs</div>
+          <div class="v" id="avgRunTxt">0.000s</div>
+        </div>
+        <div class="stat">
+          <div class="k">Fastest run</div>
+          <div class="v" id="bestRunTxt">0.000s</div>
+        </div>
+      </div>
+
+      <div class="footer">False start if you tap before green.</div>
+
     </div>
   </div>
 
   <script>
     // ===== Settings =====
-    let PRO_MS = 250;                 // editable via input
     const MIN_DELAY_MS = 2000;
     const MAX_DELAY_MS = 5000;
     const RUNS_FOR_AVG = 10;
@@ -354,19 +256,14 @@
     let lastRuns = [];
 
     // ===== Elements =====
-    const nameInput  = document.getElementById("nameInput");
-    const startBtn   = document.getElementById("startBtn");
-    const resetBtn   = document.getElementById("resetBtn");
-    const clickZone  = document.getElementById("clickZone");
-
-    const statusMsg  = document.getElementById("statusMsg");
+    const actionBar  = document.getElementById("actionBar");
+    const barTitle   = document.getElementById("barTitle");
+    const barHint    = document.getElementById("barHint");
+    const barMsg     = document.getElementById("barMsg");
 
     const lastRunTxt = document.getElementById("lastRunTxt");
     const avgRunTxt  = document.getElementById("avgRunTxt");
     const bestRunTxt = document.getElementById("bestRunTxt");
-
-    const proInput   = document.getElementById("proInput");
-    const proLabel   = document.getElementById("proLabel");
 
     const lights = [
       document.getElementById("light1"),
@@ -392,16 +289,8 @@
       if (!arr.length) return 0;
       return arr.reduce((a,b)=>a+b,0) / arr.length;
     }
-    function setStatus(html){
-      statusMsg.innerHTML = html;
-    }
-    function refreshProUI(){
-      proLabel.textContent = formatMs(PRO_MS);
-    }
 
     function updateStats(lastMs){
-      refreshProUI();
-
       if (lastMs == null){
         lastRunTxt.textContent = "0.000s";
         avgRunTxt.textContent  = "0.000s";
@@ -419,11 +308,10 @@
       avgRunTxt.textContent = formatMs(avgOf(lastRuns));
     }
 
-    function resetStats(){
-      bestMs = null;
-      lastRuns = [];
-      updateStats(null);
-      setStatus('Press <span class="red">START</span> to begin.');
+    function setUIReady(){
+      barTitle.textContent = "Tap to start";
+      barHint.textContent = "READY";
+      barMsg.innerHTML = 'Start the round. Then tap again when lights turn <span class="green">GREEN</span>.';
       setLights(getComputedStyle(document.documentElement).getPropertyValue("--off").trim() || "#222222");
       state = "idle";
       clearTimers();
@@ -433,26 +321,44 @@
     function armGame(){
       clearTimers();
       state = "armed";
-      setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600");
-      setStatus('Hold… wait for <span class="green">GREEN</span>.');
+      const red = getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600";
+      setLights(red);
+
+      barTitle.textContent = "Wait…";
+      barHint.textContent = "ARMED";
+      barMsg.innerHTML = 'Don’t tap yet. Wait for <span class="green">GREEN</span>.';
 
       const delay = MIN_DELAY_MS + Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS + 1));
       timeoutId = setTimeout(() => {
         state = "go";
-        setLights(getComputedStyle(document.documentElement).getPropertyValue("--green").trim() || "#19d319");
+        const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim() || "#19d319";
+        setLights(green);
         goTime = Date.now();
-        setStatus('<span class="green">GO!</span> Tap now.');
+
+        barTitle.textContent = "TAP!";
+        barHint.textContent = "GO";
+        barMsg.innerHTML = 'Tap now!';
       }, delay);
     }
 
-    function registerReaction(){
-      if (state === "idle") return;
+    function react(){
+      if (state === "idle"){
+        armGame();
+        return;
+      }
 
       if (state === "armed"){
+        // false start
         clearTimers();
         state = "done";
-        setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600");
-        setStatus('❌ <span class="red">False start.</span> Press <span class="red">START</span> again.');
+        const red = getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#e10600";
+        setLights(red);
+
+        barTitle.textContent = "False start";
+        barHint.textContent = "TOO SOON";
+        barMsg.innerHTML = 'Tap to try again.';
+        // return to ready after a short beat
+        setTimeout(setUIReady, 900);
         return;
       }
 
@@ -461,53 +367,29 @@
         state = "done";
         setLights(getComputedStyle(document.documentElement).getPropertyValue("--off").trim() || "#222222");
 
-        const name = (nameInput.value || "").trim();
-        const beat = rt <= PRO_MS;
-        const badge = beat ? ' ✅ Beat PRO' : '';
-
-        setStatus(`Reaction: <span class="green">${formatMs(rt)}</span>${name ? ` — <span class="red">${name}</span>` : ""}${badge}<br/>Press <span class="red">START</span> to run again.`);
+        barTitle.textContent = formatMs(rt);
+        barHint.textContent = "RESULT";
+        barMsg.innerHTML = 'Tap to run again.';
         updateStats(rt);
+        return;
+      }
+
+      if (state === "done"){
+        setUIReady();
+        return;
       }
     }
-
-    // ===== Pro Time Input (FIXED) =====
-    // Always updates the UI + the actual logic.
-    function applyProFromInput(){
-      const v = Number(proInput.value);
-      if (!Number.isFinite(v)) return;
-      const clamped = Math.max(50, Math.min(2000, Math.round(v)));
-      PRO_MS = clamped;
-      proInput.value = clamped;
-      refreshProUI();
-      // If you're mid-run, don't interrupt; just update display.
-    }
-
-    proInput.addEventListener("input", applyProFromInput);
-    proInput.addEventListener("change", applyProFromInput);
 
     // ===== Events =====
-    startBtn.addEventListener("click", armGame);
-    resetBtn.addEventListener("click", resetStats);
-
-    // Click/tap the status bar to react (minimal + big target)
-    clickZone.addEventListener("click", registerReaction);
-    clickZone.addEventListener("touchstart", (e) => {
+    actionBar.addEventListener("click", react);
+    actionBar.addEventListener("touchstart", (e) => {
       e.preventDefault();
-      registerReaction();
+      react();
     }, { passive:false });
 
-    // Spacebar: start if idle; otherwise react
-    window.addEventListener("keydown", (e) => {
-      if (e.code === "Space"){
-        e.preventDefault();
-        if (state === "idle") armGame();
-        else registerReaction();
-      }
-    });
-
     // Init
-    applyProFromInput();
-    resetStats();
+    updateStats(null);
+    setUIReady();
   </script>
 </body>
 </html>
