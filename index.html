@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fastest Lap Reaction</title>
+  <style>
+    :root{
+      --bg:#0b0b0b;
+      --card:#101010;
+      --panel:#161616;
+      --border:#2a2a2a;
+      --text:#eaeaea;
+      --muted:#a8a8a8;
+      --green:#19d319;
+      --red:#b00000;
+      --yellow:#facc15;
+      --purple:#a855f7;
+      --danger:#ef4444;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --font:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      background:linear-gradient(180deg,#101010 0%, #0a0a0a 100%);
+      color:var(--text);
+    }
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .card{
+      width:min(920px,100%);
+      background:rgba(10,10,10,.25);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow:var(--shadow);
+    }
+    .brand{
+      text-align:center;
+      font-weight:900;
+      letter-spacing:.12em;
+      user-select:none;
+    }
+    .accent{
+      display:block;
+      margin:10px auto 0;
+      height:4px;
+      width:260px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--purple),var(--green),var(--purple));
+      opacity:.9;
+    }
+
+    .nameRow{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin:16px 0 18px;
+    }
+    input{
+      width:min(520px,100%);
+      padding:14px 14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(25,25,25,.85);
+      color:var(--text);
+      font-size:16px;
+      outline:none;
+      text-align:center;
+    }
+    input::placeholder{color:#777}
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin:10px 0 18px;
+    }
+    @media (max-width:760px){
+      .stats{grid-template-columns:repeat(2,1fr);}
+    }
+    .stat{
+      background:rgba(22,22,22,.9);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      position:relative;
+      overflow:hidden;
+      min-height:78px;
+    }
+    .bar{position:absolute;left:0;right:0;top:0;height:4px;opacity:.95}
+    .bar.last{background:var(--green)}
+    .bar.avg{background:var(--yellow)}
+    .bar.best{background:var(--purple)}
+    .bar.pro{background:var(--danger)}
+    .value{
+      font-weight:900;
+      font-size:20px;
+      letter-spacing:.02em;
+      margin-bottom:8px;
+    }
+    .label{
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .lightsWrap{display:flex;justify-content:center;margin:10px 0 18px;}
+    .lightsPanel{
+      background:rgba(22,22,22,.9);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      padding:16px 22px;
+      display:flex;
+      gap:16px;
+      align-items:center;
+      user-select:none;
+    }
+    .light{
+      width:42px;height:42px;border-radius:999px;
+      background:#2a2a2a;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:inset 0 0 0 3px rgba(0,0,0,.35);
+    }
+
+    .hint{display:flex;justify-content:center;margin:0 0 14px;}
+    .hintBox{
+      width:min(620px,100%);
+      background:rgba(245,245,245,.95);
+      color:#111;
+      border-radius:14px;
+      padding:18px 16px;
+      text-align:center;
+      font-weight:900;
+      letter-spacing:.02em;
+      border:1px solid rgba(0,0,0,.08);
+      user-select:none;
+    }
+    .hintBox .green{color:var(--green)}
+    .hintBox .red{color:var(--red)}
+
+    .actions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin-top:6px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      width:min(360px,100%);
+      padding:14px 16px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      font-weight:1000;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .btnStart{background:var(--green);color:#082108;}
+    .btnReset{background:#2a2a2a;color:#eaeaea;border:1px solid rgba(255,255,255,.08);}
+    .btn:active{transform:translateY(1px)}
+
+    .sub{
+      margin-top:14px;
+      text-align:center;
+      color:#bdbdbd;
+      font-size:13px;
+      user-select:none;
+      line-height:1.35;
+    }
+    .pill{
+      display:inline-block;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      margin:0 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card" role="application" aria-label="Fastest Lap Reaction Timer">
+
+      <div class="brand">
+        FASTESTLAP.COM
+        <span class="accent"></span>
+      </div>
+
+      <div class="nameRow">
+        <input id="nameInput" type="text" placeholder="ENTER YOUR NAME" maxlength="24" />
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="bar last"></div>
+          <div class="value" id="lastRunTxt">0.000s</div>
+          <div class="label">Last run</div>
+        </div>
+        <div class="stat">
+          <div class="bar avg"></div>
+          <div class="value" id="avgRunTxt">0.000s</div>
+          <div class="label">Avg 10 runs</div>
+        </div>
+        <div class="stat">
+          <div class="bar best"></div>
+          <div class="value" id="bestRunTxt">0.000s</div>
+          <div class="label">Fastest run</div>
+        </div>
+        <div class="stat">
+          <div class="bar pro"></div>
+          <div class="value" id="proRunTxt">0.250s</div>
+          <div class="label">Pro time</div>
+        </div>
+      </div>
+
+      <div class="lightsWrap">
+        <div class="lightsPanel" id="clickZone" title="Click/tap here when green">
+          <div class="light" id="light1"></div>
+          <div class="light" id="light2"></div>
+          <div class="light" id="light3"></div>
+          <div class="light" id="light4"></div>
+        </div>
+      </div>
+
+      <div class="hint">
+        <div class="hintBox" id="statusTxt">
+          Press when lights turn <span class="green">GREEN</span>!
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btnStart" id="startBtn">START!</button>
+        <button class="btn btnReset" id="resetBtn">RESET STATS</button>
+      </div>
+
+      <div class="sub">
+        Tip: On tablets, tap the <span class="pill">lights</span> panel to react.
+        Early tap = <span class="pill">too soon</span>.
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ===== Settings =====
+    const PRO_MS = 250;                // Pro time target
+    const MIN_DELAY_MS = 2000;         // Random wait min
+    const MAX_DELAY_MS = 5000;         // Random wait max
+    const RUNS_FOR_AVG = 10;           // Avg window
+
+    // ===== State =====
+    let state = "idle"; // idle | armed | go | done
+    let goTime = 0;
+    let timeoutId = null;
+    let bestMs = null;
+    let lastRuns = []; // newest first
+
+    // ===== Elements =====
+    const nameInput  = document.getElementById("nameInput");
+    const startBtn   = document.getElementById("startBtn");
+    const resetBtn   = document.getElementById("resetBtn");
+    const statusTxt  = document.getElementById("statusTxt");
+    const clickZone  = document.getElementById("clickZone");
+
+    const lastRunTxt = document.getElementById("lastRunTxt");
+    const avgRunTxt  = document.getElementById("avgRunTxt");
+    const bestRunTxt = document.getElementById("bestRunTxt");
+    const proRunTxt  = document.getElementById("proRunTxt");
+
+    const lights = [
+      document.getElementById("light1"),
+      document.getElementById("light2"),
+      document.getElementById("light3"),
+      document.getElementById("light4"),
+    ];
+
+    // ===== Helpers =====
+    function clearTimers(){
+      if (timeoutId){
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+    }
+
+    function setLights(color){
+      lights.forEach(l => l.style.background = color);
+    }
+
+    function formatMs(ms){
+      return (ms / 1000).toFixed(3) + "s";
+    }
+
+    function avgOf(arr){
+      if (!arr.length) return 0;
+      return arr.reduce((a,b)=>a+b,0) / arr.length;
+    }
+
+    function setStatus(html){
+      statusTxt.innerHTML = html;
+    }
+
+    function updateStats(lastMs){
+      proRunTxt.textContent = formatMs(PRO_MS);
+
+      if (lastMs == null){
+        lastRunTxt.textContent = "0.000s";
+        avgRunTxt.textContent  = "0.000s";
+        bestRunTxt.textContent = "0.000s";
+        return;
+      }
+
+      lastRunTxt.textContent = formatMs(lastMs);
+
+      bestMs = (bestMs == null) ? lastMs : Math.min(bestMs, lastMs);
+      bestRunTxt.textContent = formatMs(bestMs);
+
+      lastRuns.unshift(lastMs);
+      lastRuns = lastRuns.slice(0, RUNS_FOR_AVG);
+      avgRunTxt.textContent = formatMs(avgOf(lastRuns));
+    }
+
+    function resetStats(){
+      bestMs = null;
+      lastRuns = [];
+      updateStats(null);
+      setStatus('Press when lights turn <span class="green">GREEN</span>!');
+      setLights("#2a2a2a");
+      state = "idle";
+      clearTimers();
+    }
+
+    // ===== Game Flow =====
+    function armGame(){
+      clearTimers();
+      state = "armed";
+      setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#b00000");
+      setStatus('Get ready… wait for <span class="green">GREEN</span>!');
+
+      const delay = MIN_DELAY_MS + Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS + 1));
+      timeoutId = setTimeout(() => {
+        state = "go";
+        setLights(getComputedStyle(document.documentElement).getPropertyValue("--green").trim() || "#19d319");
+        goTime = Date.now();
+        setStatus('<span class="green">GO!</span>');
+      }, delay);
+    }
+
+    function registerReaction(){
+      if (state === "idle") return;
+
+      if (state === "armed"){
+        clearTimers();
+        state = "done";
+        setLights(getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#b00000");
+        setStatus('❌ <span class="red">Too soon!</span> Press <span class="pill">START</span> to try again.');
+        return;
+      }
+
+      if (state === "go"){
+        const rt = Date.now() - goTime;
+        state = "done";
+        setLights("#2a2a2a");
+
+        const name = (nameInput.value || "").trim();
+        const badge = rt <= PRO_MS ? ' ✅ Beat the <span class="pill">PRO TIME</span>!' : "";
+        setStatus(`Reaction: <span class="pill">${formatMs(rt)}</span>${name ? ` — ${name}` : ""}${badge}<br/>Press <span class="pill">START</span> to run again.`);
+
+        updateStats(rt);
+      }
+    }
+
+    // ===== Events =====
+    startBtn.addEventListener("click", () => armGame());
+    resetBtn.addEventListener("click", () => resetStats());
+    clickZone.addEventListener("click", () => registerReaction());
+
+    // Mobile: treat touch as click, but keep it simple
+    clickZone.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      registerReaction();
+    }, { passive:false });
+
+    // Optional: spacebar to react (nice for desktop)
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space"){
+        e.preventDefault();
+        if (state === "idle") armGame();
+        else registerReaction();
+      }
+    });
+
+    // Init
+    resetStats();
+  </script>
+</body>
+</html>
