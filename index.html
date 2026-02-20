@@ -37,7 +37,7 @@
       background:var(--bg);
       color:var(--text);
       font-family:var(--font);
-      overflow:hidden; /* no scrolling */
+      overflow:hidden;
     }
 
     .wrap{
@@ -48,7 +48,6 @@
       padding:var(--pad);
     }
 
-    /* Simple frame, not “cardy” */
     .frame{
       width:min(920px,100%);
       height:100%;
@@ -63,7 +62,6 @@
       position:relative;
     }
 
-    /* Logo = hero, clean */
     .hero{
       flex:0 0 auto;
       display:flex;
@@ -80,7 +78,6 @@
       display:block;
     }
 
-    /* Thin accent line under logo */
     .accent{
       width:min(520px, 100%);
       height:1px;
@@ -89,7 +86,6 @@
       margin-top: clamp(10px, 2.8vw, 16px);
     }
 
-    /* Content area */
     .main{
       flex:1 1 auto;
       min-height:0;
@@ -100,7 +96,6 @@
       gap:var(--gap);
     }
 
-    /* Lights row: very minimal, no bubbles */
     .lights{
       display:flex;
       gap: clamp(10px, 2.8vw, 16px);
@@ -117,7 +112,6 @@
       border:1px solid rgba(255,255,255,.10);
     }
 
-    /* Single action “bar” that feels like a control panel */
     .bar{
       width:min(760px,100%);
       height:var(--barH);
@@ -173,7 +167,6 @@
     .green{color:var(--green); font-weight:900}
     .red{color:var(--red); font-weight:900}
 
-    /* Stats: clean grid */
     .stats{
       width:min(760px,100%);
       display:grid;
@@ -208,6 +201,141 @@
       white-space:nowrap;
     }
 
+    /* NEW: name + leaderboard */
+    .panel{
+      width:min(760px,100%);
+      border:1px solid var(--hair2);
+      border-radius:14px;
+      background:rgba(255,255,255,.01);
+      padding: clamp(12px, 3.0vw, 14px);
+      min-width:0;
+    }
+
+    .row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .label{
+      font-size: clamp(10px, 2.6vw, 12px);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.58);
+      white-space:nowrap;
+    }
+
+    .input{
+      flex:1 1 220px;
+      height:40px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.02);
+      color:var(--text);
+      padding:0 12px;
+      font-family:var(--mono);
+      outline:none;
+    }
+    .input::placeholder{ color:rgba(255,255,255,.35); }
+
+    .btn{
+      height:40px;
+      padding:0 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.02);
+      color:rgba(255,255,255,.85);
+      font-family:var(--mono);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btnDanger{ border-color: rgba(225,6,0,.45); color: rgba(225,6,0,.95); }
+
+    .hint{
+      margin-top:10px;
+      color:rgba(255,255,255,.45);
+      font-size: clamp(10px, 2.6vw, 12px);
+      letter-spacing:.02em;
+      line-height:1.35;
+    }
+
+    .err{
+      margin-top:10px;
+      color:rgba(225,6,0,.95);
+      font-size: clamp(10px, 2.6vw, 12px);
+      letter-spacing:.02em;
+      min-height: 1.2em;
+    }
+
+    .board{
+      margin-top:12px;
+      border-top:1px solid var(--hair2);
+      padding-top:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .boardHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .boardTitle{
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size: clamp(11px, 3.0vw, 13px);
+      color:rgba(255,255,255,.88);
+      white-space:nowrap;
+    }
+
+    .boardTable{
+      width:100%;
+      border-collapse:collapse;
+      font-family:var(--mono);
+      font-size: clamp(11px, 3.0vw, 13px);
+    }
+
+    .boardTable th,
+    .boardTable td{
+      padding:10px 8px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .boardTable th{
+      color:rgba(255,255,255,.55);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-weight:800;
+      font-size: clamp(10px, 2.6vw, 11px);
+    }
+
+    .rank{
+      width:48px;
+      color:rgba(255,255,255,.65);
+    }
+
+    .time{
+      width:110px;
+      text-align:right;
+      font-weight:900;
+    }
+
+    .nameCell{
+      max-width: 1px; /* allow ellipsis */
+    }
+
     .foot{
       flex:0 0 auto;
       text-align:center;
@@ -217,20 +345,25 @@
       padding-top: 2px;
     }
 
-    /* Phone: stack stats to avoid tiny text */
     @media (max-width: 520px){
       .stats{ grid-template-columns:1fr; }
       .desc{ max-width: 40ch; }
+      .time{ width:100px; }
     }
 
-    /* Short screens: remove footer + truncate description */
-    @media (max-height: 640px){
+    @media (max-height: 720px){
       .foot{ display:none; }
-      .desc{ display:none; }
       :root{
         --logoW: clamp(200px, 52vw, 360px);
         --barH: clamp(64px, 10vw, 82px);
       }
+    }
+
+    @media (max-height: 640px){
+      .desc{ display:none; }
+      .hint{ display:none; }
+      .panel{ padding: 12px; }
+      .boardTable th, .boardTable td{ padding:8px 6px; }
     }
   </style>
 </head>
@@ -273,6 +406,41 @@
             <div class="v" id="bestRunTxt">0.000s</div>
           </div>
         </div>
+
+        <!-- NEW: Name + Leaderboard -->
+        <div class="panel" aria-label="Name and Leaderboard">
+          <div class="row">
+            <div class="label">Name</div>
+            <input class="input" id="nameInput" type="text" inputmode="text" maxlength="18" placeholder="Type your name (e.g. JEREMY)" autocomplete="off" />
+            <button class="btn btnDanger" id="clearBoardBtn" type="button" aria-label="Clear leaderboard">Clear</button>
+          </div>
+
+          <div class="err" id="nameError" aria-live="polite"></div>
+          <div class="hint">
+            Finish a run and your time will be saved to the leaderboard under this name.
+            
+          </div>
+
+          <div class="board">
+            <div class="boardHead">
+              <div class="boardTitle">Leaderboard (Top 10)</div>
+              <div class="label" id="boardMeta">—</div>
+            </div>
+
+            <table class="boardTable" aria-label="Leaderboard table">
+              <thead>
+                <tr>
+                  <th class="rank">#</th>
+                  <th>Name</th>
+                  <th class="time">Time</th>
+                </tr>
+              </thead>
+              <tbody id="boardBody">
+                <!-- rows inserted by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div class="foot">False start if you tap before green.</div>
@@ -283,6 +451,18 @@
     const MIN_DELAY_MS = 2000;
     const MAX_DELAY_MS = 5000;
     const RUNS_FOR_AVG = 10;
+
+    // Leaderboard config
+    const BOARD_KEY = "fl_reaction_leaderboard_v1";
+    const BOARD_SIZE = 10;
+
+    // Add/extend this list with any local "no-go" terms you want.
+    // Keep them lowercase.
+    const BANNED_TERMS = [
+      "fuck","shit","bitch","cunt","nigger","faggot","asshole","dick","pussy","whore","slut",
+      "motherfucker","mf","nigga","fag","twat","cock","porn","rape","rapist","pedo","pedophile",
+      "kys","kill yourself","suicide"
+    ];
 
     let state = "idle"; // idle | armed | go | done
     let goTime = 0;
@@ -298,6 +478,12 @@
     const lastRunTxt = document.getElementById("lastRunTxt");
     const avgRunTxt  = document.getElementById("avgRunTxt");
     const bestRunTxt = document.getElementById("bestRunTxt");
+
+    const nameInput  = document.getElementById("nameInput");
+    const nameError  = document.getElementById("nameError");
+    const boardBody  = document.getElementById("boardBody");
+    const boardMeta  = document.getElementById("boardMeta");
+    const clearBoardBtn = document.getElementById("clearBoardBtn");
 
     const lights = [
       document.getElementById("light1"),
@@ -374,6 +560,154 @@
       }, delay);
     }
 
+    // --- Name sanitization + profanity filter ---
+
+    function normalizeName(raw){
+      // Keep letters/numbers/space/_- only, collapse spaces, trim, cap.
+      let s = (raw || "")
+        .replace(/[^\p{L}\p{N}\s_-]+/gu, "")  // remove punctuation/emojis/etc
+        .replace(/\s+/g, " ")
+        .trim();
+
+      // Uppercase to match the “panel” vibe
+      s = s.toUpperCase();
+
+      // Cap length (also enforced by input maxlength)
+      if (s.length > 18) s = s.slice(0, 18).trim();
+
+      return s;
+    }
+
+    function looksBad(name){
+      const n = (name || "").toLowerCase();
+
+      // block empty / too short (optional)
+      if (!n || n.length < 2) return "Name must be at least 2 characters.";
+
+      // Basic banned term checks (contains).
+      // Also check "spaceless" to catch F U C K / f- u- c- k patterns after cleanup.
+      const nNoSpace = n.replace(/\s+/g, "");
+      for (const term of BANNED_TERMS){
+        const t = term.toLowerCase().replace(/\s+/g, "");
+        if (!t) continue;
+        if (n.includes(term) || nNoSpace.includes(t)) {
+          return "That name isn’t allowed.";
+        }
+      }
+
+      return "";
+    }
+
+    function validateAndStoreName(){
+      const clean = normalizeName(nameInput.value);
+      nameInput.value = clean;
+
+      const err = looksBad(clean);
+      nameError.textContent = err;
+
+      return err ? "" : clean;
+    }
+
+    nameInput.addEventListener("input", () => {
+      // live sanitization but keep typing smooth
+      const pos = nameInput.selectionStart;
+      const before = nameInput.value;
+      const clean = normalizeName(before);
+      nameInput.value = clean;
+      // attempt to keep cursor near end (good enough for kiosk)
+      try { nameInput.setSelectionRange(pos, pos); } catch {}
+      nameError.textContent = looksBad(clean);
+    });
+
+    nameInput.addEventListener("blur", validateAndStoreName);
+
+    // --- Leaderboard persistence ---
+
+    function loadBoard(){
+      try{
+        const raw = localStorage.getItem(BOARD_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        // normalize shape
+        return parsed
+          .filter(x => x && typeof x.name === "string" && typeof x.ms === "number")
+          .map(x => ({ name: normalizeName(x.name), ms: x.ms, ts: x.ts || Date.now() }));
+      }catch{
+        return [];
+      }
+    }
+
+    function saveBoard(entries){
+      try{
+        localStorage.setItem(BOARD_KEY, JSON.stringify(entries));
+      }catch{}
+    }
+
+    let board = loadBoard();
+
+    function renderBoard(){
+      // sort fastest first
+      const sorted = [...board].sort((a,b)=>a.ms - b.ms).slice(0, BOARD_SIZE);
+      boardBody.innerHTML = "";
+
+      if (!sorted.length){
+        boardMeta.textContent = "No scores yet";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="rank">—</td>
+          <td class="nameCell" style="color:rgba(255,255,255,.45)">Be the first</td>
+          <td class="time" style="color:rgba(255,255,255,.45)">—</td>
+        `;
+        boardBody.appendChild(tr);
+        return;
+      }
+
+      boardMeta.textContent = `${sorted.length} saved`;
+
+      sorted.forEach((e, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="rank">${i+1}</td>
+          <td class="nameCell" title="${e.name}">${e.name}</td>
+          <td class="time">${formatMs(e.ms)}</td>
+        `;
+        boardBody.appendChild(tr);
+      });
+    }
+
+    function addToBoard(name, ms){
+      // Keep only best per-name? (optional). Here: keep best time per unique name.
+      // Comment this block out if you want multiple entries per person.
+      const existingIdx = board.findIndex(e => e.name === name);
+      if (existingIdx >= 0){
+        if (ms < board[existingIdx].ms){
+          board[existingIdx] = { name, ms, ts: Date.now() };
+        }
+      }else{
+        board.push({ name, ms, ts: Date.now() });
+      }
+
+      // Trim storage growth
+      board = board
+        .sort((a,b)=>a.ms - b.ms)
+        .slice(0, 50);
+
+      saveBoard(board);
+      renderBoard();
+    }
+
+    clearBoardBtn.addEventListener("click", () => {
+      // simple confirm without popup (kiosk-friendly): long-press would be nicer, but keep it simple.
+      board = [];
+      saveBoard(board);
+      renderBoard();
+      nameError.textContent = "Leaderboard cleared.";
+      setTimeout(() => { nameError.textContent = ""; }, 900);
+    });
+
+    // --- Main interaction ---
+
     function react(){
       if (state === "idle"){
         armGame();
@@ -403,6 +737,17 @@
         barMsg.textContent   = "Tap to run again.";
 
         updateStats(rt);
+
+        // Save to leaderboard (only if name is valid)
+        const name = validateAndStoreName();
+        if (name){
+          addToBoard(name, rt);
+          nameError.textContent = "";
+        }else{
+          // Keep this subtle: result still works, just won't save
+          if (!nameError.textContent) nameError.textContent = "Enter a valid name to save your score.";
+        }
+
         return;
       }
 
@@ -419,6 +764,7 @@
 
     updateStats(null);
     setUIReady();
+    renderBoard();
   </script>
 </body>
 </html>
