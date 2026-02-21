@@ -411,7 +411,6 @@
             <div class="label">Name</div>
             <input class="input" id="nameInput" type="text" inputmode="text" maxlength="18"
                    placeholder="Type your name (e.g. JEREMY)" autocomplete="off" />
-            <button class="btn btnDanger" id="clearBoardBtn" type="button" aria-label="Clear leaderboard">Clear</button>
           </div>
 
           <div class="err" id="nameError" aria-live="polite"></div>
@@ -474,7 +473,6 @@
     const nameError  = document.getElementById("nameError");
     const boardBody  = document.getElementById("boardBody");
     const boardMeta  = document.getElementById("boardMeta");
-    const clearBoardBtn = document.getElementById("clearBoardBtn");
 
     const lights = [
       document.getElementById("light1"),
@@ -656,14 +654,6 @@
       saveBoard(board);
       renderBoard();
     }
-
-    clearBoardBtn.addEventListener("click", () => {
-      board = [];
-      saveBoard(board);
-      renderBoard();
-      nameError.textContent = "Leaderboard cleared.";
-      setTimeout(() => { nameError.textContent = ""; }, 900);
-    });
 
     function react(){
       if (state === "idle"){
