@@ -675,15 +675,17 @@
     }
 
     function addToBoard(name, ms){
-      // Keep only best per-name? (optional). Here: keep best time per unique name.
-      // Comment this block out if you want multiple entries per person.
-      const existingIdx = board.findIndex(e => e.name === name);
-      if (existingIdx >= 0){
-        if (ms < board[existingIdx].ms){
-          board[existingIdx] = { name, ms, ts: Date.now() };
-        }
-      }else{
-        board.push({ name, ms, ts: Date.now() });
+  // Always add a new entry (so multiple runs show up)
+  board.push({ name, ms, ts: Date.now() });
+
+  // Keep only top 50 overall (fastest times), then render top 10
+  board = board
+    .sort((a,b)=>a.ms - b.ms)
+    .slice(0, 50);
+
+  saveBoard(board);
+  renderBoard();
+}
       }
 
       // Trim storage growth
