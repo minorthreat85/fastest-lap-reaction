@@ -289,6 +289,18 @@
       white-space:nowrap;
     }
 
+    .boardScroll{
+      max-height: clamp(180px, 35vh, 320px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .boardScroll::-webkit-scrollbar{ width: 8px; }
+    .boardScroll::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.18);
+      border-radius: 8px;
+    }
+    .boardScroll::-webkit-scrollbar-track{ background: transparent; }
+
     .boardTable{
       width:100%;
       border-collapse:collapse;
@@ -311,6 +323,11 @@
       text-transform:uppercase;
       font-weight:800;
       font-size: clamp(10px, 2.6vw, 11px);
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,.92);
+      backdrop-filter: blur(6px);
+      z-index: 2;
     }
 
     .rank{
@@ -346,6 +363,7 @@
       .hint{ display:none; }
       .panel{ padding: 12px; }
       .boardTable th, .boardTable td{ padding:8px 6px; }
+      .boardScroll{ max-height: clamp(140px, 30vh, 240px); }
     }
   </style>
 </head>
@@ -391,14 +409,13 @@
         <div class="panel" aria-label="Name and Leaderboard">
           <div class="row">
             <div class="label">Name</div>
-            <input class="input" id="nameInput" type="text" inputmode="text" maxlength="18" placeholder="Type your name (e.g. JEREMY)" autocomplete="off" />
+            <input class="input" id="nameInput" type="text" inputmode="text" maxlength="18"
+                   placeholder="Type your name (e.g. JEREMY)" autocomplete="off" />
             <button class="btn btnDanger" id="clearBoardBtn" type="button" aria-label="Clear leaderboard">Clear</button>
           </div>
 
           <div class="err" id="nameError" aria-live="polite"></div>
-          <div class="hint">
-            Finish a run and your time will be saved to the leaderboard under this name.
-          </div>
+          <div class="hint">Finish a run and your time will be saved to the leaderboard under this name.</div>
 
           <div class="board">
             <div class="boardHead">
@@ -406,16 +423,18 @@
               <div class="label" id="boardMeta">—</div>
             </div>
 
-            <table class="boardTable" aria-label="Leaderboard table">
-              <thead>
-                <tr>
-                  <th class="rank">#</th>
-                  <th>Name</th>
-                  <th class="time">Time</th>
-                </tr>
-              </thead>
-              <tbody id="boardBody"></tbody>
-            </table>
+            <div class="boardScroll" aria-label="Scrollable leaderboard">
+              <table class="boardTable" aria-label="Leaderboard table">
+                <thead>
+                  <tr>
+                    <th class="rank">#</th>
+                    <th>Name</th>
+                    <th class="time">Time</th>
+                  </tr>
+                </thead>
+                <tbody id="boardBody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -627,7 +646,6 @@
     }
 
     function addToBoard(name, ms){
-      // Always add new entry (multiple runs show up)
       board.push({ name, ms, ts: Date.now() });
 
       // Keep only top 50 overall
